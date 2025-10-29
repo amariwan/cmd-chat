@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, Any
 
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding, rsa
@@ -41,8 +41,13 @@ def generate_rsa_keypair(key_size: int = 2048) -> RSAKeyPair:
     return RSAKeyPair(private_key=private_key, public_key_pem=public_pem)
 
 
-def load_rsa_public_key(public_key_pem: bytes) -> rsa.RSAPublicKey:
-    """Deserialize a PEM-encoded RSA public key."""
+def load_rsa_public_key(public_key_pem: bytes) -> Any:
+    """Deserialize a PEM-encoded public key.
+
+    Note: cryptography may return different public key types depending on the
+    input (RSA, DSA, EC, X25519, etc.). We annotate as Any to reflect that and
+    leave higher-level callers responsible for validating the key type.
+    """
 
     return serialization.load_pem_public_key(public_key_pem)
 

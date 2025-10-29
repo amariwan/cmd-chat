@@ -9,7 +9,7 @@ from __future__ import annotations
 import asyncio
 import base64
 import json
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from ..utils import utc_timestamp
 
@@ -60,7 +60,7 @@ class MessageHandler:
         client_id: int,
         *,
         sequence: int | None = None,
-    ) -> dict:
+    ) -> dict[str, Any]:
         """Create a chat message payload.
 
         Args:
@@ -92,7 +92,7 @@ class MessageHandler:
         message: str,
         room: str,
         client_id: int,
-    ) -> dict:
+    ) -> dict[str, Any]:
         """Create a system message payload.
 
         Args:
@@ -111,7 +111,7 @@ class MessageHandler:
             "timestamp": utc_timestamp(),
         }
 
-    def create_ping_message(self) -> dict:
+    def create_ping_message(self) -> dict[str, Any]:
         """Create a heartbeat ping message.
 
         Returns:
@@ -131,7 +131,7 @@ class MessageHandler:
         total_chunks: int,
         room: str,
         client_id: int,
-    ) -> dict:
+    ) -> dict[str, Any]:
         """Create a file transfer initialization message.
 
         Args:
@@ -167,7 +167,7 @@ class MessageHandler:
         is_final: bool,
         room: str,
         client_id: int,
-    ) -> dict:
+    ) -> dict[str, Any]:
         """Create a file chunk message.
 
         Args:
@@ -197,7 +197,7 @@ class MessageHandler:
     async def encrypt_and_send(
         self,
         session: ClientSession,
-        payload: dict,
+        payload: dict[str, Any],
     ) -> None:
         """Encrypt a payload and send to client.
 
@@ -235,7 +235,7 @@ class MessageHandler:
         session: ClientSession,
         nonce_b64: str,
         ciphertext_b64: str,
-    ) -> dict:
+    ) -> dict[str, Any]:
         """Decrypt an encrypted payload.
 
         Args:

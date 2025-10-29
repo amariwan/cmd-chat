@@ -383,7 +383,18 @@ def create_help_menu() -> str:
 def clear_screen() -> None:
     """Clear the terminal screen."""
     import os
-    os.system('clear' if os.name != 'nt' else 'cls')
+    import subprocess
+    import shutil
+
+    # Prefer running the clear command directly without a shell.
+    cmd = "cls" if os.name == "nt" else "clear"
+    exe = shutil.which(cmd)
+    if exe:
+        # Run without shell to avoid shell injection risks flagged by bandit
+        subprocess.run([exe])
+    else:
+        # Fallback: print newlines to simulate a clear
+        print("\n" * 100)
 
 
 def create_status_line(room: str, users_count: int = 0, connected: bool = True) -> str:

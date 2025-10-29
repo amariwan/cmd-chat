@@ -72,11 +72,13 @@ def format_filesize(size_bytes: int) -> str:
         >>> format_filesize(1048576)
         '1.00 MB'
     """
+    # Work with a float locally to avoid mutating the caller's integer
+    sb = float(size_bytes)
     for unit in ["B", "KB", "MB", "GB"]:
-        if size_bytes < 1024.0:
-            return f"{size_bytes:.2f} {unit}"
-        size_bytes /= 1024.0
-    return f"{size_bytes:.2f} TB"
+        if sb < 1024.0:
+            return f"{sb:.2f} {unit}"
+        sb /= 1024.0
+    return f"{sb:.2f} TB"
 
 
 def format_progress(current: int, total: int, *, width: int = 20) -> str:
