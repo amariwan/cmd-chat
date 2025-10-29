@@ -42,6 +42,9 @@ dev = [
 cmdchat-server = "cmdchat.cli:main"
 cmdchat-client = "cmdchat.client_cli:main"
 
+[tool.setuptools.packages.find]
+include = ["cmdchat*"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
