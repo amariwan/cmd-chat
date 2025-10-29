@@ -1,0 +1,7 @@
+# CmdChat Requirements
+# Install with: pip install -r requirements.txt
+
+# Core dependencies
+cryptography>=41,<43
+
+# Development dependencies (optional, install with: pip install -r requirements-dev.txt)

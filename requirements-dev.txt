@@ -1,0 +1,32 @@
+# Development Requirements
+# Install with: pip install -r requirements-dev.txt
+
+# Core dependencies
+-r requirements.txt
+
+# Testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.1.0
+pytest-mock>=3.11.0
+pytest-xdist>=3.5.0
+
+# Code Quality
+black>=24.0.0
+ruff>=0.7.0
+mypy>=1.13.0
+
+# Security
+bandit>=1.7.0
+safety>=3.0.0
+
+# Pre-commit
+pre-commit>=3.6.0
+
+# Build & Publishing
+build>=1.0.0
+twine>=5.0.0
+
+# Documentation (optional)
+sphinx>=7.0.0
+sphinx-rtd-theme>=2.0.0

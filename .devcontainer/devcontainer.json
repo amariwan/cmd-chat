@@ -1,0 +1,92 @@
+{
+  "name": "CmdChat Development",
+  "image": "mcr.microsoft.com/devcontainers/python:3.13",
+
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "installOhMyZsh": true,
+      "upgradePackages": true
+    }
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-python.black-formatter",
+        "charliermarsh.ruff",
+        "ms-python.mypy-type-checker",
+        "tamasfe.even-better-toml",
+        "github.vscode-github-actions",
+        "github.copilot",
+        "github.copilot-chat",
+        "eamodio.gitlens",
+        "usernamehw.errorlens",
+        "gruntfuggly.todo-tree",
+        "shardulm94.trailing-spaces",
+        "editorconfig.editorconfig"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.testing.pytestEnabled": true,
+        "python.testing.unittestEnabled": false,
+        "python.testing.pytestArgs": [
+          "tests"
+        ],
+        "python.linting.enabled": true,
+        "python.linting.pylintEnabled": false,
+        "python.formatting.provider": "none",
+        "[python]": {
+          "editor.formatOnSave": true,
+          "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit",
+            "source.fixAll": "explicit"
+          }
+        },
+        "black-formatter.args": [
+          "--line-length=100"
+        ],
+        "ruff.lint.args": [
+          "--select=E,W,F,I,N,UP,B,A,C4,DTZ,T10,EM,ISC,ICN,PIE,PT,RET,SIM,TID,ARG,PTH,ERA,PL,RUF"
+        ],
+        "ruff.format.args": [
+          "--line-length=100"
+        ],
+        "mypy-type-checker.args": [
+          "--strict",
+          "--ignore-missing-imports"
+        ],
+        "editor.formatOnSave": true,
+        "editor.rulers": [100],
+        "files.trimTrailingWhitespace": true,
+        "files.insertFinalNewline": true,
+        "files.trimFinalNewlines": true
+      }
+    }
+  },
+
+  "postCreateCommand": "pip install -e '.[dev]' && pre-commit install",
+
+  "remoteUser": "vscode",
+
+  "mounts": [
+    "source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,readonly,type=bind,consistency=cached"
+  ],
+
+  "forwardPorts": [8888, 5000],
+
+  "portsAttributes": {
+    "8888": {
+      "label": "CmdChat Server",
+      "onAutoForward": "notify"
+    },
+    "5000": {
+      "label": "Alternative Port",
+      "onAutoForward": "silent"
+    }
+  }
+}

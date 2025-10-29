@@ -1,0 +1,131 @@
+# ----------------------------------------
+# Python
+# ----------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Bytecode / Distribution
+build/
+dist/
+wheels/
+*.egg-info/
+.eggs/
+*.egg
+MANIFEST
+
+# Virtualenv / Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Packaging / Install
+.Python
+pip-wheel-metadata/
+share/python-wheels/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Logs / Temp
+*.log
+*.tmp
+*.bak
+*.old
+*.swp
+*.swo
+*~
+.history/
+.cache/
+__pypackages__/
+
+# ----------------------------------------
+# Test / Coverage
+# ----------------------------------------
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# ----------------------------------------
+# Documentation
+# ----------------------------------------
+docs/_build/
+site/
+
+# ----------------------------------------
+# Editors / IDEs
+# ----------------------------------------
+.vscode/
+.idea/
+.spyderproject
+.spyproject
+.ropeproject
+
+# ----------------------------------------
+# Tools / Type Checkers
+# ----------------------------------------
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+
+# ----------------------------------------
+# Jupyter / IPython
+# ----------------------------------------
+.ipynb_checkpoints
+profile_default/
+ipython_config.py
+
+# ----------------------------------------
+# Frameworks
+# ----------------------------------------
+# Django
+db.sqlite3*
+local_settings.py
+
+# Flask
+instance/
+.webassets-cache
+
+# Scrapy
+.scrapy
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# PyInstaller
+*.manifest
+*.spec
+
+# ----------------------------------------
+# OS / Misc
+# ----------------------------------------
+.DS_Store
+Thumbs.db
+
+# ----------------------------------------
+# Docker
+# ----------------------------------------
+docker-compose.override.yml
+*.pid
+*.sock
+
+# ----------------------------------------
+# Project Specific
+# ----------------------------------------
+downloads/
+*.old
+cmdchat-server.service

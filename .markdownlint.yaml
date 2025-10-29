@@ -1,0 +1,121 @@
+# MarkdownLint Configuration
+
+# Default state for all rules
+default: true
+
+# Line length (allow long lines for code blocks and tables)
+MD013:
+  line_length: 120
+  code_blocks: false
+  tables: false
+
+# Trailing spaces
+MD009:
+  br_spaces: 2
+  list_item_empty_lines: false
+  strict: false
+
+# Multiple consecutive blank lines
+MD012:
+  maximum: 2
+
+# Hard tabs
+MD010:
+  code_blocks: false
+
+# Reversed link syntax
+MD011: true
+
+# Multiple headers with the same content
+MD024:
+  allow_different_nesting: true
+
+# Multiple top level headers
+MD025: true
+
+# Trailing punctuation in header
+MD026:
+  punctuation: ".,;:!"
+
+# Multiple spaces after blockquote symbol
+MD027: true
+
+# Blank line inside blockquote
+MD028: true
+
+# Ordered list item prefix
+MD029:
+  style: "ordered"
+
+# Spaces after list markers
+MD030:
+  ul_single: 1
+  ol_single: 1
+  ul_multi: 1
+  ol_multi: 1
+
+# Fenced code blocks should be surrounded by blank lines
+MD031: true
+
+# Lists should be surrounded by blank lines
+MD032: true
+
+# Inline HTML
+MD033:
+  allowed_elements: [ br, details, summary, img, kbd, sup, sub ]
+
+# Bare URL used
+MD034: true
+
+# Horizontal rule style
+MD035:
+  style: "---"
+
+# Emphasis used instead of header
+MD036: true
+
+# Spaces inside emphasis markers
+MD037: true
+
+# Spaces inside code span elements
+MD038: true
+
+# Spaces inside link text
+MD039: true
+
+# Fenced code blocks should have a language specified
+MD040: true
+
+# First line in file should be a top level header
+MD041: false
+
+# No empty links
+MD042: true
+
+# Required header structure
+MD043: false
+
+# Proper names should have the correct capitalization
+MD044: false
+
+# Images should have alternate text (alt text)
+MD045: true
+
+# Code block style
+MD046:
+  style: "fenced"
+
+# Files should end with a single newline character
+MD047: true
+
+# Code fence style
+MD048:
+  style: "backtick"
+
+# Emphasis style should be consistent
+MD049:
+  style: "asterisk"
+
+# Strong style should be consistent
+MD050:
+  style: "asterisk"
