@@ -7,7 +7,6 @@ Separated from message handling for better modularity.
 from __future__ import annotations
 
 import asyncio
-import base64
 import hashlib
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -16,7 +15,7 @@ from ..crypto import FILE_CHUNK_SIZE
 from ..types import FileTransferInfo, FileTransferState
 
 if TYPE_CHECKING:
-    from ..types import ClientSession
+    pass
 
 
 class FileTransferManager:

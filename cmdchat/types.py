@@ -6,13 +6,14 @@ to ensure type safety throughout the application.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Literal, Protocol, TypedDict, Union
 from dataclasses import dataclass
 from enum import Enum
+from typing import TYPE_CHECKING, Any, Literal, Protocol, TypedDict, Union
 
 if TYPE_CHECKING:
     import asyncio
     from collections import deque
+
     from .crypto import SymmetricCipher
 
 

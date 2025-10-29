@@ -27,7 +27,6 @@ from .state import ServerState
 from .tls import create_ssl_context
 
 if TYPE_CHECKING:
-    from typing import Optional
 
     from ..types import ClientSession
 
@@ -136,8 +135,8 @@ async def run_server(
     host: str,
     port: int,
     *,
-    certfile: Optional[str] = None,
-    keyfile: Optional[str] = None,
+    certfile: str | None = None,
+    keyfile: str | None = None,
     metrics_interval: int = 0,
 ) -> None:
     """Start the server and serve until interrupted.
@@ -176,7 +175,7 @@ async def run_server(
             # Signals are not supported on some platforms (e.g., Windows).
             pass
 
-    metrics_task: Optional[asyncio.Task] = None
+    metrics_task: asyncio.Task | None = None
     if metrics_interval > 0:
         metrics_task = asyncio.create_task(metrics_loop(state, stop_event, metrics_interval))
 

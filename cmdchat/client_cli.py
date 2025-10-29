@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import argparse
 import asyncio
+import contextlib
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -14,10 +15,10 @@ from cmdchat.client import run_client
 from cmdchat.types import ClientConfig
 
 if TYPE_CHECKING:
-    from typing import Optional
+    pass
 
 
-def parse_args(argv: Optional[list[str]] = None) -> ClientConfig:
+def parse_args(argv: list[str] | None = None) -> ClientConfig:
     """Parse CLI arguments for the client.
 
     Args:
@@ -97,17 +98,15 @@ def parse_args(argv: Optional[list[str]] = None) -> ClientConfig:
     )
 
 
-def main(argv: Optional[list[str]] = None) -> None:
+def main(argv: list[str] | None = None) -> None:
     """Entry point for client CLI.
 
     Args:
         argv: Command line arguments (None uses sys.argv)
     """
     config = parse_args(argv)
-    try:
+    with contextlib.suppress(KeyboardInterrupt):
         asyncio.run(run_client(config))
-    except KeyboardInterrupt:
-        pass
 
 
 if __name__ == "__main__":

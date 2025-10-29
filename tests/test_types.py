@@ -2,8 +2,6 @@
 
 from pathlib import Path
 
-import pytest
-
 from cmdchat.types import ClientConfig, ClientSession, RoomID
 
 
@@ -83,5 +81,4 @@ class TestClientSession:
     def test_client_session_type_exists(self):
         """Test that ClientSession type is importable."""
         # This ensures the type is properly defined
-        from cmdchat.types import ClientSession
         assert ClientSession is not None

@@ -1,6 +1,5 @@
 """Tests for crypto module."""
 
-import base64
 
 import pytest
 

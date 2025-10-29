@@ -1,12 +1,11 @@
 """Tests for lib.renderers module."""
 
-import pytest
 from io import StringIO
 
 from cmdchat.lib.renderers import (
+    MarkdownRenderer,
     PlainRenderer,
     RichRenderer,
-    MarkdownRenderer,
     get_renderer,
 )
 

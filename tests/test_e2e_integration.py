@@ -5,12 +5,12 @@ Tests the complete workflow from server startup to client communication.
 """
 
 import asyncio
+import contextlib
+from collections.abc import AsyncIterator
 import socket
-from typing import AsyncIterator
 
 import pytest
 
-from cmdchat.protocol import read_message, write_message
 from cmdchat.server.run import run_server
 
 
@@ -54,10 +54,8 @@ async def test_server() -> AsyncIterator[tuple[str, int]]:
 
     # Cleanup
     server_task.cancel()
-    try:
+    with contextlib.suppress(asyncio.CancelledError):
         await server_task
-    except asyncio.CancelledError:
-        pass
 
 
 @pytest.mark.asyncio
@@ -155,10 +153,8 @@ async def test_e2e_connection_lifecycle():
     finally:
         # Cleanup server
         server_task.cancel()
-        try:
+        with contextlib.suppress(asyncio.CancelledError):
             await server_task
-        except asyncio.CancelledError:
-            pass
 
 
 @pytest.mark.asyncio
@@ -222,10 +218,8 @@ async def test_e2e_server_availability():
 
     finally:
         server_task.cancel()
-        try:
+        with contextlib.suppress(asyncio.CancelledError):
             await server_task
-        except asyncio.CancelledError:
-            pass
 
 
 @pytest.mark.asyncio
@@ -286,10 +280,8 @@ async def test_e2e_full_workflow():
     finally:
         # Phase 7: Shutdown server
         server_task.cancel()
-        try:
+        with contextlib.suppress(asyncio.CancelledError):
             await server_task
-        except asyncio.CancelledError:
-            pass
 
 
 def test_e2e_port_utility():

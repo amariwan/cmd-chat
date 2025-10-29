@@ -2,15 +2,14 @@
 
 from __future__ import annotations
 
-import os
 from dataclasses import dataclass
-from typing import Optional, Any
+import os
+from typing import Any
 
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding, rsa
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-
 
 AES_KEY_SIZE = 32  # 256-bit AES key
 AES_NONCE_SIZE = 12  # Recommended nonce size for AES-GCM
@@ -106,7 +105,7 @@ def derive_key_from_passphrase(passphrase: str, salt: bytes, *, iterations: int 
     return kdf.derive(passphrase.encode("utf-8"))
 
 
-def encrypt_with_key(key: bytes, plaintext: bytes, *, associated_data: Optional[bytes] = None) -> tuple[bytes, bytes]:
+def encrypt_with_key(key: bytes, plaintext: bytes, *, associated_data: bytes | None = None) -> tuple[bytes, bytes]:
     """Encrypt plaintext using an externally provided symmetric key."""
 
     cipher = AESGCM(key)
@@ -115,7 +114,7 @@ def encrypt_with_key(key: bytes, plaintext: bytes, *, associated_data: Optional[
     return nonce, ciphertext
 
 
-def decrypt_with_key(key: bytes, nonce: bytes, ciphertext: bytes, *, associated_data: Optional[bytes] = None) -> bytes:
+def decrypt_with_key(key: bytes, nonce: bytes, ciphertext: bytes, *, associated_data: bytes | None = None) -> bytes:
     """Decrypt ciphertext with a provided symmetric key."""
 
     cipher = AESGCM(key)
@@ -133,14 +132,14 @@ class SymmetricCipher:
     def key(self) -> bytes:
         return self._key
 
-    def encrypt(self, plaintext: bytes, *, associated_data: Optional[bytes] = None) -> tuple[bytes, bytes]:
+    def encrypt(self, plaintext: bytes, *, associated_data: bytes | None = None) -> tuple[bytes, bytes]:
         """Encrypt plaintext and return a (nonce, ciphertext) pair."""
 
         nonce = os.urandom(AES_NONCE_SIZE)
         ciphertext = self._cipher.encrypt(nonce, plaintext, associated_data)
         return nonce, ciphertext
 
-    def decrypt(self, nonce: bytes, ciphertext: bytes, *, associated_data: Optional[bytes] = None) -> bytes:
+    def decrypt(self, nonce: bytes, ciphertext: bytes, *, associated_data: bytes | None = None) -> bytes:
         """Decrypt ciphertext using the provided nonce."""
 
         return self._cipher.decrypt(nonce, ciphertext, associated_data)

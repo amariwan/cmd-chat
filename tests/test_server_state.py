@@ -1,14 +1,16 @@
 """Tests for server.state module."""
 
-import pytest
-from unittest.mock import MagicMock, AsyncMock
 from collections import deque
+from unittest.mock import AsyncMock, MagicMock
+import contextlib
+
+import pytest
 
 from cmdchat import crypto
-from cmdchat.server.state import ServerState
-from cmdchat.lib.session import SessionManager
 from cmdchat.lib.message import MessageHandler
+from cmdchat.lib.session import SessionManager
 from cmdchat.server.metrics import MetricsCollector
+from cmdchat.server.state import ServerState
 from cmdchat.types import ClientSession
 
 
@@ -270,7 +272,5 @@ class TestServerStateErrorHandling:
         # Broadcast should handle error gracefully
         payload = {"type": "chat", "message": "Test"}
         # This may raise or handle internally depending on implementation
-        try:
+        with contextlib.suppress(Exception):
             await server_state.broadcast_to_room("lobby", payload)
-        except Exception:
-            pass  # Expected

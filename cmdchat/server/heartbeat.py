@@ -7,6 +7,7 @@ disconnected or unresponsive clients.
 from __future__ import annotations
 
 import asyncio
+import contextlib
 import logging
 from typing import TYPE_CHECKING
 
@@ -50,8 +51,6 @@ async def heartbeat_loop(
                 raise ConnectionError("Failed to send heartbeat") from None
     except Exception as exc:
         logger.debug("Heartbeat terminating for client %s: %s", session.client_id, exc)
-        try:
+        with contextlib.suppress(Exception):
             session.writer.close()
             await session.writer.wait_closed()
-        except Exception:
-            pass

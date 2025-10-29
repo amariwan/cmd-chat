@@ -12,7 +12,7 @@ import sys
 from typing import TYPE_CHECKING
 
 from .. import protocol
-from .io import decrypt_message, send_encrypted
+from .io import decrypt_message
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -101,9 +101,7 @@ async def receive_loop(
             continue
 
         ptype = payload.get("type")
-        if ptype == "chat":
-            await message_recorder(payload)
-        elif ptype == "system":
+        if ptype == "chat" or ptype == "system":
             await message_recorder(payload)
         elif ptype == "file_init":
             await file_init_handler(payload)

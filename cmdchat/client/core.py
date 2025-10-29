@@ -7,24 +7,23 @@ all client functionality following SOLID principles.
 from __future__ import annotations
 
 import asyncio
-import contextlib
 from collections import deque
+import contextlib
 from typing import TYPE_CHECKING
 
-from ..lib import FileTransferManager, create_renderer
-from ..types import ClientConfig
-from ..utils import sanitize_name, sanitize_room
-from .files import handle_file_chunk, handle_file_init, send_file
-from .history import EncryptedHistory
-from .io import perform_handshake, send_encrypted
-from .loops import receive_loop, send_loop
-from .tls import create_ssl_context
+from cmdchat.lib import FileTransferManager, create_renderer
+from cmdchat.types import ClientConfig
+from cmdchat.utils import sanitize_name, sanitize_room
+from cmdchat.client.files import handle_file_chunk, handle_file_init, send_file
+from cmdchat.client.history import EncryptedHistory
+from cmdchat.client.io import perform_handshake, send_encrypted
+from cmdchat.client.loops import receive_loop, send_loop
+from cmdchat.client.tls import create_ssl_context
 
 if TYPE_CHECKING:
-    from typing import Deque, Optional
 
-    from .. import crypto
-    from ..types import MessageRenderer
+    from cmdchat import crypto
+    from cmdchat.types import MessageRenderer
 
 
 class CmdChatClient:
@@ -47,19 +46,19 @@ class CmdChatClient:
         """
         self.config = config
         self._stop_event = asyncio.Event()
-        self._messages: Deque[dict] = deque(maxlen=config.buffer_size)
+        self._messages: deque[dict] = deque(maxlen=config.buffer_size)
         self._history = (
             EncryptedHistory(config.history_file, config.history_passphrase)
             if config.history_file and config.history_passphrase
             else None
         )
-        self._reader: Optional[asyncio.StreamReader] = None
-        self._writer: Optional[asyncio.StreamWriter] = None
-        self._cipher: Optional[crypto.SymmetricCipher] = None
+        self._reader: asyncio.StreamReader | None = None
+        self._writer: asyncio.StreamWriter | None = None
+        self._cipher: crypto.SymmetricCipher | None = None
         self._send_lock = asyncio.Lock()
         self._current_name = sanitize_name(config.name)
         self._current_room = sanitize_room(config.room)
-        self._heartbeat_interval: Optional[float] = None
+        self._heartbeat_interval: float | None = None
 
         # Dependency injection: renderer and file transfer manager
         self._renderer: MessageRenderer = create_renderer(config.renderer)
@@ -115,11 +114,8 @@ class CmdChatClient:
         self._current_room = negotiated_room
 
         # Update renderer if negotiated different
-        try:
+        with contextlib.suppress(ValueError):
             self._renderer = create_renderer(negotiated_renderer)
-        except ValueError:
-            # Fall back to original if negotiated renderer is invalid
-            pass
 
         self._reader = reader
         self._writer = writer
@@ -187,14 +183,17 @@ class CmdChatClient:
             return True
         if command == "/help":
             try:
-                from ..ui import create_help_menu
+                from cmdchat.ui import create_help_menu
+
                 print(create_help_menu())
             except ImportError:
-                print("Commands: /nick <name>, /join <room>, /send <filepath>, /clear, /help, /quit")
+                print("Commands: /nick <name>, /join <room>, /send <filepath>,")
+                print("/clear, /help, /quit")
             return False
         if command == "/clear":
             try:
-                from ..ui import clear_screen
+                from cmdchat.ui import clear_screen
+
                 clear_screen()
                 # Re-show welcome banner after clear
                 self._show_welcome_banner()
@@ -261,7 +260,13 @@ class CmdChatClient:
     def _show_welcome_banner(self) -> None:
         """Display welcome banner with connection info."""
         try:
-            from ..ui import create_banner, create_welcome_box, create_separator, create_help_menu, Colors
+            from cmdchat.ui import (
+                Colors,
+                create_banner,
+                create_help_menu,
+                create_separator,
+                create_welcome_box,
+            )
 
             # Show banner
             print(create_banner())
@@ -273,15 +278,17 @@ class CmdChatClient:
 
             # Show quick help
             print(f"{Colors.BRIGHT_YELLOW}💡 Quick Tips:{Colors.RESET}")
-            print(f"  • Type a message and press Enter to chat")
-            print(f"  • Use /help to see all available commands")
-            print(f"  • Use /quit to disconnect and exit")
+            print("  • Type a message and press Enter to chat")
+            print("  • Use /help to see all available commands")
+            print("  • Use /quit to disconnect and exit")
             print()
             print(create_separator(width=70))
             print()
         except ImportError:
             # Fallback if UI module not available
-            print(f"Connected to CMD Chat as {self._current_name} in room {self._current_room}.")
+            print(
+                f"Connected to CMD Chat as {self._current_name} in room {self._current_room}."
+            )
             print("Type messages to chat. Commands: /nick, /join, /send, /clear, /help, /quit")
 
     def _handle_reconnect_notice(self, exc: Exception, backoff: int) -> None:

@@ -12,7 +12,7 @@ from typing import TYPE_CHECKING
 from ..lib import MessageHandler, SessionManager
 
 if TYPE_CHECKING:
-    from ..types import ClientID, ClientSession, RoomID
+    from ..types import ClientID, RoomID
 
 
 @dataclass

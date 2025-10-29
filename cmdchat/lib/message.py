@@ -14,7 +14,7 @@ from typing import TYPE_CHECKING, Any
 from ..utils import utc_timestamp
 
 if TYPE_CHECKING:
-    from ..types import ClientSession, Payload
+    from ..types import ClientSession
 
 
 class MessageHandler:

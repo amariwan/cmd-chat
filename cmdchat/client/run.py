@@ -5,7 +5,6 @@ This module provides the entry point for running the client.
 
 from __future__ import annotations
 
-import asyncio
 from typing import TYPE_CHECKING
 
 from .core import CmdChatClient

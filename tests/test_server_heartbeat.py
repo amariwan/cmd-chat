@@ -1,13 +1,15 @@
 """Tests for server.heartbeat module."""
 
-import pytest
 import asyncio
+import contextlib
 from collections import deque
-from unittest.mock import MagicMock, AsyncMock
+from unittest.mock import AsyncMock, MagicMock
+
+import pytest
 
 from cmdchat import crypto
-from cmdchat.server.heartbeat import heartbeat_loop, HEARTBEAT_INTERVAL, HEARTBEAT_TIMEOUT
 from cmdchat.lib.message import MessageHandler
+from cmdchat.server.heartbeat import HEARTBEAT_INTERVAL, HEARTBEAT_TIMEOUT, heartbeat_loop
 from cmdchat.types import ClientSession
 
 
@@ -59,10 +61,8 @@ class TestHeartbeatLoop:
 
         # Cancel the task
         task.cancel()
-        try:
+        with contextlib.suppress(asyncio.CancelledError):
             await task
-        except asyncio.CancelledError:
-            pass
 
         # Verify at least one ping was sent
         assert mock_session.writer.write.called
@@ -143,10 +143,8 @@ class TestHeartbeatTiming:
         await asyncio.sleep(HEARTBEAT_INTERVAL * 2.5)
 
         task.cancel()
-        try:
+        with contextlib.suppress(asyncio.CancelledError):
             await task
-        except asyncio.CancelledError:
-            pass
 
         # Should have sent at least 2 pings
         assert call_count >= 2
@@ -174,14 +172,10 @@ class TestHeartbeatTiming:
         # Cleanup
         heartbeat_task.cancel()
         update_task.cancel()
-        try:
+        with contextlib.suppress(asyncio.CancelledError):
             await heartbeat_task
-        except asyncio.CancelledError:
-            pass
-        try:
+        with contextlib.suppress(asyncio.CancelledError):
             await update_task
-        except asyncio.CancelledError:
-            pass
 
 
 class TestHeartbeatConstants:

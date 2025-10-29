@@ -1,8 +1,12 @@
 """Tests for utils.sanitization module."""
 
-import pytest
 
-from cmdchat.utils.sanitization import sanitize_log_data, sanitize_name, sanitize_room, sanitize_token
+from cmdchat.utils.sanitization import (
+    sanitize_log_data,
+    sanitize_name,
+    sanitize_room,
+    sanitize_token,
+)
 
 
 class TestSanitizeName:

@@ -50,11 +50,11 @@ async def metrics_loop(state: ServerState, stop_event: asyncio.Event, interval: 
     logger.info(f"metrics_loop starting with {interval}s interval")
 
     metrics = getattr(state, 'metrics', {})
-    
+
     while not stop_event.is_set():
         try:
             await asyncio.sleep(interval)
-            
+
             if isinstance(metrics, MetricsCollector):
                 metrics_dict = metrics.get_metrics()
             else:

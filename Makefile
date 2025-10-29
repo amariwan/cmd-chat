@@ -74,9 +74,18 @@ lint:
 	$(BLACK) --check cmdchat tests
 	@echo "✅ Linting passed"
 
+lint-fix:
+	$(RUFF) check --fix cmdchat tests
+	@echo "✅ Linting issues fixed"
+
 typecheck:
 	$(MYPY) cmdchat --strict --ignore-missing-imports
 	@echo "✅ Type checking passed"
+
+fix-all:
+	$(RUFF) check --fix cmdchat tests
+	$(BLACK) cmdchat tests
+	@echo "✅ All fixable issues resolved"
 
 security:
 	$(BANDIT) -r cmdchat -ll

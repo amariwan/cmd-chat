@@ -3,8 +3,8 @@
 from . import client, server
 
 __all__ = [
-    "protocol",
-    "crypto",
     "client",
+    "crypto",
+    "protocol",
     "server",
 ]

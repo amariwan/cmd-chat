@@ -15,7 +15,6 @@ from typing import TYPE_CHECKING
 from .. import crypto, protocol
 
 if TYPE_CHECKING:
-    from typing import Optional
 
     from ..types import ClientConfig
 

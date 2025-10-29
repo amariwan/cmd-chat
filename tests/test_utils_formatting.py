@@ -1,6 +1,5 @@
 """Tests for utils.formatting module."""
 
-import pytest
 
 from cmdchat.utils.formatting import format_timestamp, utc_timestamp
 

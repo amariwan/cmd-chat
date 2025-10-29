@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import argparse
 import asyncio
+import contextlib
 import logging
 import os
 from typing import TYPE_CHECKING
@@ -14,7 +15,7 @@ from typing import TYPE_CHECKING
 from cmdchat.server import run_server
 
 if TYPE_CHECKING:
-    from typing import Optional
+    pass
 
 
 class SanitizedFormatter(logging.Formatter):
@@ -31,7 +32,7 @@ class SanitizedFormatter(logging.Formatter):
         return super().format(record)
 
 
-def parse_args(argv: Optional[list[str]] = None) -> tuple[str, int, Optional[str], Optional[str], int]:
+def parse_args(argv: list[str] | None = None) -> tuple[str, int, str | None, str | None, int]:
     """Parse command line arguments for the server.
 
     Args:
@@ -70,7 +71,7 @@ def parse_args(argv: Optional[list[str]] = None) -> tuple[str, int, Optional[str
     return args.host, args.port, args.certfile, args.keyfile, max(0, args.metrics_interval)
 
 
-def main(argv: Optional[list[str]] = None) -> None:
+def main(argv: list[str] | None = None) -> None:
     """Entry point for server CLI.
 
     Args:
@@ -92,7 +93,7 @@ def main(argv: Optional[list[str]] = None) -> None:
     logger.info("Starting CMD Chat Server (log_level=%s)", log_level)
 
     host, port, certfile, keyfile, metrics_interval = parse_args(argv)
-    try:
+    with contextlib.suppress(KeyboardInterrupt):
         asyncio.run(
             run_server(
                 host,
@@ -102,8 +103,6 @@ def main(argv: Optional[list[str]] = None) -> None:
                 metrics_interval=metrics_interval,
             )
         )
-    except KeyboardInterrupt:
-        pass
 
 
 if __name__ == "__main__":

@@ -351,11 +351,10 @@ def create_file_transfer_box(filename: str, filesize: int, sender: str, progress
             f"📊 Size: {Colors.BRIGHT_GREEN}{size_str}{Colors.RESET}",
         ]
         return create_box("Incoming File", lines, color=Colors.YELLOW, width=60)
-    else:
-        # Progress update
-        current_bytes = int(filesize * progress)
-        bar = create_progress_bar(current_bytes, filesize, width=40, label="Transfer")
-        return f"{Icons.FILE} {filename}: {bar}"
+    # Progress update
+    current_bytes = int(filesize * progress)
+    bar = create_progress_bar(current_bytes, filesize, width=40, label="Transfer")
+    return f"{Icons.FILE} {filename}: {bar}"
 
 
 def create_help_menu() -> str:
@@ -383,15 +382,15 @@ def create_help_menu() -> str:
 def clear_screen() -> None:
     """Clear the terminal screen."""
     import os
-    import subprocess
     import shutil
+    import subprocess
 
     # Prefer running the clear command directly without a shell.
     cmd = "cls" if os.name == "nt" else "clear"
     exe = shutil.which(cmd)
     if exe:
         # Run without shell to avoid shell injection risks flagged by bandit
-        subprocess.run([exe])
+        subprocess.run([exe], check=False)
     else:
         # Fallback: print newlines to simulate a clear
         print("\n" * 100)

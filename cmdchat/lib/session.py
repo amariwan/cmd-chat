@@ -12,9 +12,8 @@ from __future__ import annotations
 
 import asyncio
 from collections import defaultdict
-from typing import Iterable
 
-from ..types import ClientSession, ClientID, RoomID
+from ..types import ClientID, ClientSession, RoomID
 
 
 class SessionManager:

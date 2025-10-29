@@ -7,9 +7,9 @@ from __future__ import annotations
 
 import asyncio
 import base64
+from collections import deque
 import logging
 import os
-from collections import deque
 from typing import TYPE_CHECKING
 
 from .. import crypto, protocol
@@ -22,7 +22,6 @@ from ..utils import (
 )
 
 if TYPE_CHECKING:
-    from typing import Optional
 
     from .state import ServerState
 

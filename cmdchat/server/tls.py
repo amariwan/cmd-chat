@@ -10,13 +10,13 @@ import ssl
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from typing import Optional
+    pass
 
 
 def create_ssl_context(
-    certfile: Optional[str] = None,
-    keyfile: Optional[str] = None,
-) -> Optional[ssl.SSLContext]:
+    certfile: str | None = None,
+    keyfile: str | None = None,
+) -> ssl.SSLContext | None:
     """Create SSL context for server if certificates are provided.
 
     Args:

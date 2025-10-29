@@ -14,7 +14,7 @@ from typing import TYPE_CHECKING
 from .. import crypto
 
 if TYPE_CHECKING:
-    from typing import Optional
+    pass
 
 
 class EncryptedHistory:
@@ -32,7 +32,7 @@ class EncryptedHistory:
         """
         self.path = path
         self.passphrase = passphrase
-        self.salt: Optional[bytes] = None
+        self.salt: bytes | None = None
         self.messages: list[dict] = []
         self._load()
 

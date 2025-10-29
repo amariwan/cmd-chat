@@ -16,7 +16,6 @@ if TYPE_CHECKING:
 class ValidationError(ValueError):
     """Raised when validation fails."""
 
-    pass
 
 
 def validate_message_size(message: bytes, *, max_size: int) -> None:

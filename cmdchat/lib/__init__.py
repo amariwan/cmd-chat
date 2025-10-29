@@ -4,24 +4,24 @@ from .file_transfer import FileTransferManager
 from .message import MessageHandler
 from .renderers import (
     JsonRenderer,
-    MinimalRenderer,
-    RichRenderer,
-    PlainRenderer,
     MarkdownRenderer,
+    MinimalRenderer,
+    PlainRenderer,
+    RichRenderer,
     create_renderer,
     get_renderer,
 )
 from .session import SessionManager
 
 __all__ = [
-    "SessionManager",
-    "MessageHandler",
     "FileTransferManager",
-    "RichRenderer",
-    "MinimalRenderer",
     "JsonRenderer",
-    "PlainRenderer",
     "MarkdownRenderer",
+    "MessageHandler",
+    "MinimalRenderer",
+    "PlainRenderer",
+    "RichRenderer",
+    "SessionManager",
     "create_renderer",
     "get_renderer",
 ]

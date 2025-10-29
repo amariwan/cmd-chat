@@ -10,14 +10,14 @@ import ssl
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from typing import Optional
+    pass
 
 
 def create_ssl_context(
     tls_enabled: bool,
-    ca_file: Optional[str] = None,
+    ca_file: str | None = None,
     tls_insecure: bool = False,
-) -> Optional[ssl.SSLContext]:
+) -> ssl.SSLContext | None:
     """Create SSL context for client if TLS is enabled.
 
     Args:

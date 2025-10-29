@@ -31,14 +31,14 @@ class RichRenderer:
             line = f"[{timestamp}{seq_label}] {sender}: {message}"
             if output is not None:
                 output.write(line)
-                return
+                return None
             return line
 
         message = payload.get("message", "")
         line = f"[{timestamp}] [system] {message}"
         if output is not None:
             output.write(line)
-            return
+            return None
         return line
 
 
@@ -49,11 +49,11 @@ class AsciiRenderer:
         """Initialize renderer with UI components."""
         try:
             from ..ui import (
-                create_message_box,
-                create_system_message,
-                create_file_transfer_box,
                 Colors,
                 Icons,
+                create_file_transfer_box,
+                create_message_box,
+                create_system_message,
             )
             self.create_message_box = create_message_box
             self.create_system_message = create_system_message
@@ -80,25 +80,25 @@ class AsciiRenderer:
             line = self.create_message_box(sender, message, timestamp, is_own=False)
             if output is not None:
                 output.write(line)
-                return
+                return None
             return line
 
-        elif msg_type == "system":
+        if msg_type == "system":
             message = payload.get("message", "")
             line = self.create_system_message(message, "info")
             if output is not None:
                 output.write(line)
-                return
+                return None
             return line
 
-        elif msg_type == "file_init":
+        if msg_type == "file_init":
             sender = payload.get("sender", "?")
             filename = payload.get("filename", "")
             filesize = payload.get("filesize", 0)
             line = self.create_file_transfer_box(filename, filesize, sender, progress=0.0)
             if output is not None:
                 output.write(line)
-                return
+                return None
             return line
 
         # Default fallback
@@ -121,7 +121,7 @@ class AsciiRenderer:
 
         if output is not None:
             output.write(line)
-            return
+            return None
         return line
 
 
@@ -138,14 +138,14 @@ class MinimalRenderer:
             line = f"{sender}: {message}"
             if output is not None:
                 output.write(line)
-                return
+                return None
             return line
 
         message = payload.get("message", "")
         line = f"[system] {message}"
         if output is not None:
             output.write(line)
-            return
+            return None
         return line
 
 
@@ -157,7 +157,7 @@ class JsonRenderer:
         line = json.dumps(payload, separators=(",", ":"))
         if output is not None:
             output.write(line)
-            return
+            return None
         return line
 
 
@@ -174,7 +174,7 @@ class PlainRenderer:
             line = f"{timestamp} {sender}: {message}" if timestamp else f"{sender}: {message}"
             if output is not None:
                 output.write(line)
-                return
+                return None
             return line
 
         if msg_type == "file_init":
@@ -185,14 +185,14 @@ class PlainRenderer:
             line = f"{sender} sent file {filename} ({size_str})"
             if output is not None:
                 output.write(line)
-                return
+                return None
             return line
 
         message = payload.get("message", payload.get("data", ""))
         line = f"{timestamp} [system] {message}" if timestamp else f"[system] {message}"
         if output is not None:
             output.write(line)
-            return
+            return None
         return line
 
 
@@ -211,7 +211,7 @@ class MarkdownRenderer:
                 line = f"{timestamp} {line}"
             if output is not None:
                 output.write(line)
-                return
+                return None
             return line
 
         if msg_type == "file_init":
@@ -221,7 +221,7 @@ class MarkdownRenderer:
             line = f"**{sender}** sent `{filename}` ({filesize})"
             if output is not None:
                 output.write(line)
-                return
+                return None
             return line
 
         message = payload.get("message", payload.get("data", ""))
@@ -230,7 +230,7 @@ class MarkdownRenderer:
             line = f"{timestamp} {line}"
         if output is not None:
             output.write(line)
-            return
+            return None
         return line
 
 

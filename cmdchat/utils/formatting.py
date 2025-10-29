@@ -6,8 +6,7 @@ and other display elements.
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
-from typing import Optional
+from datetime import UTC, datetime
 
 
 def utc_timestamp() -> str:
@@ -21,10 +20,10 @@ def utc_timestamp() -> str:
         >>> 'T' in ts and '+' in ts or 'Z' in ts
         True
     """
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(UTC).isoformat()
 
 
-def format_timestamp(timestamp: Optional[str]) -> str:
+def format_timestamp(timestamp: str | None) -> str:
     """Format ISO 8601 timestamp for display.
 
     Converts UTC timestamps to local time in HH:MM:SS format.
@@ -49,7 +48,7 @@ def format_timestamp(timestamp: Optional[str]) -> str:
     try:
         dt = datetime.fromisoformat(timestamp)
         if dt.tzinfo is None:
-            dt = dt.replace(tzinfo=timezone.utc)
+            dt = dt.replace(tzinfo=UTC)
         return dt.astimezone().strftime("%H:%M:%S")
     except (ValueError, AttributeError):
         return "--:--:--"

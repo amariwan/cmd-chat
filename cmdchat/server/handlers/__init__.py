@@ -10,9 +10,9 @@ from .system import handle_rename, handle_switch_room, handle_system_message
 
 __all__ = [
     "handle_chat_message",
-    "handle_system_message",
-    "handle_file_init",
     "handle_file_chunk",
+    "handle_file_init",
     "handle_rename",
     "handle_switch_room",
+    "handle_system_message",
 ]

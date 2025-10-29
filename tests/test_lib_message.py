@@ -17,7 +17,7 @@ def message_handler():
 def mock_session():
     """Create a mock client session."""
     from collections import deque
-    from unittest.mock import MagicMock, AsyncMock
+    from unittest.mock import AsyncMock, MagicMock
 
     key = crypto.generate_symmetric_key()
     cipher = crypto.SymmetricCipher(key)

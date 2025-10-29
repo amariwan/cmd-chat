@@ -1,9 +1,10 @@
 """Tests for server.metrics module."""
 
-import pytest
 import asyncio
 import os
 from unittest.mock import MagicMock, patch
+
+import pytest
 
 from cmdchat.server.metrics import MetricsCollector, metrics_loop
 
@@ -74,9 +75,9 @@ class TestMetricsLoop:
     @pytest.mark.asyncio
     async def test_metrics_loop_logs_periodically(self):
         """Test that metrics loop logs at interval."""
-        from cmdchat.server.state import ServerState
-        from cmdchat.lib.session import SessionManager
         from cmdchat.lib.message import MessageHandler
+        from cmdchat.lib.session import SessionManager
+        from cmdchat.server.state import ServerState
 
         session_manager = SessionManager()
         message_handler = MessageHandler()
@@ -103,9 +104,9 @@ class TestMetricsLoop:
     @pytest.mark.asyncio
     async def test_metrics_loop_respects_stop_event(self):
         """Test that metrics loop stops on event."""
-        from cmdchat.server.state import ServerState
-        from cmdchat.lib.session import SessionManager
         from cmdchat.lib.message import MessageHandler
+        from cmdchat.lib.session import SessionManager
+        from cmdchat.server.state import ServerState
 
         session_manager = SessionManager()
         message_handler = MessageHandler()
@@ -133,9 +134,9 @@ class TestMetricsLoop:
     @pytest.mark.asyncio
     async def test_metrics_loop_disabled(self):
         """Test metrics loop when disabled via env var."""
-        from cmdchat.server.state import ServerState
-        from cmdchat.lib.session import SessionManager
         from cmdchat.lib.message import MessageHandler
+        from cmdchat.lib.session import SessionManager
+        from cmdchat.server.state import ServerState
 
         session_manager = SessionManager()
         message_handler = MessageHandler()
@@ -161,9 +162,9 @@ class TestMetricsLoop:
     @pytest.mark.asyncio
     async def test_metrics_loop_calculates_rate(self):
         """Test that metrics loop calculates message rate."""
-        from cmdchat.server.state import ServerState
-        from cmdchat.lib.session import SessionManager
         from cmdchat.lib.message import MessageHandler
+        from cmdchat.lib.session import SessionManager
+        from cmdchat.server.state import ServerState
 
         session_manager = SessionManager()
         message_handler = MessageHandler()
@@ -201,12 +202,13 @@ class TestMetricsIntegration:
     @pytest.mark.asyncio
     async def test_metrics_track_active_sessions(self):
         """Test metrics tracking active client sessions."""
-        from cmdchat.server.state import ServerState
-        from cmdchat.lib.session import SessionManager
-        from cmdchat.lib.message import MessageHandler
-        from cmdchat import crypto
-        from cmdchat.types import ClientSession
         from collections import deque
+
+        from cmdchat import crypto
+        from cmdchat.lib.message import MessageHandler
+        from cmdchat.lib.session import SessionManager
+        from cmdchat.server.state import ServerState
+        from cmdchat.types import ClientSession
 
         session_manager = SessionManager()
         message_handler = MessageHandler()
@@ -246,13 +248,14 @@ class TestMetricsIntegration:
     @pytest.mark.asyncio
     async def test_metrics_track_broadcast_messages(self):
         """Test metrics tracking broadcast messages."""
-        from cmdchat.server.state import ServerState
-        from cmdchat.lib.session import SessionManager
-        from cmdchat.lib.message import MessageHandler
-        from cmdchat import crypto
-        from cmdchat.types import ClientSession
         from collections import deque
         from unittest.mock import AsyncMock
+
+        from cmdchat import crypto
+        from cmdchat.lib.message import MessageHandler
+        from cmdchat.lib.session import SessionManager
+        from cmdchat.server.state import ServerState
+        from cmdchat.types import ClientSession
 
         session_manager = SessionManager()
         message_handler = MessageHandler()
