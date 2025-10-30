@@ -30,6 +30,11 @@ class ServerState:
     session_mgr: SessionManager = field(default_factory=SessionManager)
     message_handler: MessageHandler = field(default_factory=MessageHandler)
     metrics: dict[str, float] = field(default_factory=lambda: {"messages": 0})
+    shutdown: bool = field(default=False)
+
+    async def set_shutdown(self) -> None:
+        """Set the shutdown flag."""
+        object.__setattr__(self, 'shutdown', True)
 
     def increment_messages(self) -> None:
         """Increment message counter."""

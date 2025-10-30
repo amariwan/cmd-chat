@@ -18,25 +18,24 @@ class ValidationError(ValueError):
 
 
 
-def validate_message_size(message: bytes, *, max_size: int) -> None:
+def validate_message_size(size: int, *, max_size: int = 4096) -> None:
     """Validate message size.
 
     Args:
-        message: Message bytes to validate
-        max_size: Maximum allowed size in bytes
+        size: Message size in bytes to validate
+        max_size: Maximum allowed size in bytes (default: 4096)
 
     Raises:
         ValidationError: If message exceeds max size
 
     Examples:
-        >>> validate_message_size(b"hello", max_size=10)
-        >>> validate_message_size(b"hello world", max_size=5)
+        >>> validate_message_size(100)
+        >>> validate_message_size(5000)
         Traceback (most recent call last):
         ...
-        cmdchat.utils.validation.ValidationError: Message too large: 11 bytes (max 5 bytes)
+        cmdchat.utils.validation.ValidationError: Message too large: 5000 bytes (max 4096 bytes)
     """
-    size = len(message)
-    if size > max_size:
+    if size <= 0 or size > max_size:
         raise ValidationError(f"Message too large: {size} bytes (max {max_size} bytes)")
 
 

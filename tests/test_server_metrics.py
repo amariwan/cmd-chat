@@ -84,7 +84,7 @@ class TestMetricsLoop:
         metrics = MetricsCollector()
 
         state = ServerState(
-            session_manager=session_manager,
+            session_mgr=session_manager,
             message_handler=message_handler,
             metrics=metrics,
         )
@@ -113,7 +113,7 @@ class TestMetricsLoop:
         metrics = MetricsCollector()
 
         state = ServerState(
-            session_manager=session_manager,
+            session_mgr=session_manager,
             message_handler=message_handler,
             metrics=metrics,
         )
@@ -143,7 +143,7 @@ class TestMetricsLoop:
         metrics = MetricsCollector()
 
         state = ServerState(
-            session_manager=session_manager,
+            session_mgr=session_manager,
             message_handler=message_handler,
             metrics=metrics,
         )
@@ -171,7 +171,7 @@ class TestMetricsLoop:
         metrics = MetricsCollector()
 
         state = ServerState(
-            session_manager=session_manager,
+            session_mgr=session_manager,
             message_handler=message_handler,
             metrics=metrics,
         )
@@ -215,7 +215,7 @@ class TestMetricsIntegration:
         metrics = MetricsCollector()
 
         state = ServerState(
-            session_manager=session_manager,
+            session_mgr=session_manager,
             message_handler=message_handler,
             metrics=metrics,
         )
@@ -262,7 +262,7 @@ class TestMetricsIntegration:
         metrics = MetricsCollector()
 
         state = ServerState(
-            session_manager=session_manager,
+            session_mgr=session_manager,
             message_handler=message_handler,
             metrics=metrics,
         )

@@ -28,7 +28,16 @@ def sanitize_name(raw_name: str, *, max_length: int = 32) -> str:
     cleaned = raw_name.strip()
     if not cleaned:
         return "anonymous"
-    return cleaned[:max_length]
+
+    # Remove special characters, keep only alphanumeric, spaces, hyphens, underscores
+    import re
+    sanitized = re.sub(r'[^a-zA-Z0-9\s\-_]', '', cleaned)
+
+    # If all characters were removed, return default
+    if not sanitized.strip():
+        return "anonymous"
+
+    return sanitized[:max_length]
 
 
 def sanitize_room(raw_room: str, *, max_length: int = 32, default: str = "lobby") -> str:
@@ -74,6 +83,10 @@ def sanitize_log_data(data: str, *, max_length: int = 64) -> str:
         >>> sanitize_log_data("a" * 100)
         'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa...<100 chars total>'
     """
+    # Convert non-string types to string
+    if not isinstance(data, str):
+        data = str(data)
+
     if not data:
         return "<empty>"
 
@@ -95,19 +108,22 @@ def sanitize_token(token: str | None, *, show_chars: int = 4) -> str:
 
     Examples:
         >>> sanitize_token(None)
-        '<none>'
+        'None'
         >>> sanitize_token("abc")
         '***'
         >>> sanitize_token("abcdefghijklmnop")
-        'abcd...mnop'
+        'abcd***mnop'
     """
-    if not token:
-        return "<none>"
+    if token is None:
+        return "None"
+    
+    if token == "":
+        return ""
 
     if len(token) <= show_chars * 2:
         return "***"
 
-    return f"{token[:show_chars]}...{token[-show_chars:]}"
+    return f"{token[:show_chars]}***{token[-show_chars:]}"
 
 
 def sanitize_filepath(filepath: str, *, max_length: int = 256) -> str:

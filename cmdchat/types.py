@@ -278,15 +278,15 @@ class ClientConfig:
     port: int
     name: str
     room: str
-    token: str | None
-    renderer: RendererType
-    buffer_size: int
-    quiet_reconnect: bool
-    history_file: str | None
-    history_passphrase: str | None
-    tls: bool
-    tls_insecure: bool
-    ca_file: str | None
+    token: str | None = None
+    renderer: RendererType = RendererType.RICH
+    buffer_size: int = 4096
+    quiet_reconnect: bool = False
+    history_file: str | None = None
+    history_passphrase: str | None = None
+    tls: bool = False
+    tls_insecure: bool = False
+    ca_file: str | None = None
 
 
 @dataclass(slots=True)

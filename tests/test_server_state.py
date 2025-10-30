@@ -22,7 +22,7 @@ def server_state():
     metrics = MetricsCollector()
 
     return ServerState(
-        session_manager=session_manager,
+        session_mgr=session_manager,
         message_handler=message_handler,
         metrics=metrics,
     )
@@ -57,7 +57,7 @@ class TestServerStateBasics:
 
     def test_server_state_creation(self, server_state):
         """Test ServerState is created properly."""
-        assert server_state.session_manager is not None
+        assert server_state.session_mgr is not None
         assert server_state.message_handler is not None
         assert server_state.metrics is not None
 
@@ -80,7 +80,7 @@ class TestServerStateBroadcast:
     async def test_broadcast_to_room(self, server_state, mock_session):
         """Test broadcasting a message to a room."""
         # Add session to manager
-        await server_state.session_manager.add_session(mock_session)
+        await server_state.session_mgr.add_session(mock_session)
 
         # Broadcast message
         payload = {"type": "chat", "message": "Hello"}
@@ -100,7 +100,7 @@ class TestServerStateBroadcast:
     async def test_broadcast_excludes_sender(self, server_state, mock_session):
         """Test that broadcast can exclude sender."""
         # Add session
-        await server_state.session_manager.add_session(mock_session)
+        await server_state.session_mgr.add_session(mock_session)
 
         # Broadcast excluding this client
         payload = {"type": "chat", "message": "Hello"}
@@ -139,7 +139,7 @@ class TestServerStateBroadcast:
                 rate_window=deque(),
             )
             sessions.append(session)
-            await server_state.session_manager.add_session(session)
+            await server_state.session_mgr.add_session(session)
 
         # Broadcast
         payload = {"type": "system", "message": "Announcement"}
@@ -156,27 +156,27 @@ class TestServerStateClientManagement:
     @pytest.mark.asyncio
     async def test_add_client(self, server_state, mock_session):
         """Test adding a client."""
-        await server_state.session_manager.add_session(mock_session)
+        await server_state.session_mgr.add_session(mock_session)
 
-        client_ids = server_state.session_manager.get_all_client_ids()
+        client_ids = server_state.session_mgr.get_all_client_ids()
         assert "test-client-1" in client_ids
 
     @pytest.mark.asyncio
     async def test_remove_client(self, server_state, mock_session):
         """Test removing a client."""
-        await server_state.session_manager.add_session(mock_session)
-        await server_state.session_manager.remove_session("test-client-1")
+        await server_state.session_mgr.add_session(mock_session)
+        await server_state.session_mgr.remove_session("test-client-1")
 
-        session = server_state.session_manager.get_session("test-client-1")
+        session = server_state.session_mgr.get_session("test-client-1")
         assert session is None
 
     @pytest.mark.asyncio
     async def test_move_client_to_room(self, server_state, mock_session):
         """Test moving a client to different room."""
-        await server_state.session_manager.add_session(mock_session)
-        await server_state.session_manager.move_session("test-client-1", "general")
+        await server_state.session_mgr.add_session(mock_session)
+        await server_state.session_mgr.move_session("test-client-1", "general")
 
-        session = server_state.session_manager.get_session("test-client-1")
+        session = server_state.session_mgr.get_session("test-client-1")
         assert session.room == "general"
 
 
@@ -187,10 +187,10 @@ class TestServerStateMetrics:
     async def test_metrics_track_clients(self, server_state, mock_session):
         """Test that metrics track client count."""
         # Add client
-        await server_state.session_manager.add_session(mock_session)
+        await server_state.session_mgr.add_session(mock_session)
 
         # Update metrics
-        client_count = len(server_state.session_manager.get_all_client_ids())
+        client_count = len(server_state.session_mgr.get_all_client_ids())
         server_state.metrics.update_client_count(client_count)
 
         assert server_state.metrics.total_clients == client_count
@@ -198,7 +198,7 @@ class TestServerStateMetrics:
     @pytest.mark.asyncio
     async def test_metrics_track_messages(self, server_state, mock_session):
         """Test that metrics track message count."""
-        await server_state.session_manager.add_session(mock_session)
+        await server_state.session_mgr.add_session(mock_session)
 
         # Send message
         payload = {"type": "chat", "message": "Test"}
@@ -237,7 +237,7 @@ class TestServerStateErrorHandling:
             rate_window=deque(),
         )
 
-        await server_state.session_manager.add_session(session)
+        await server_state.session_mgr.add_session(session)
 
         # Broadcast should handle closed writer gracefully
         payload = {"type": "chat", "message": "Test"}
@@ -267,7 +267,7 @@ class TestServerStateErrorHandling:
             rate_window=deque(),
         )
 
-        await server_state.session_manager.add_session(session)
+        await server_state.session_mgr.add_session(session)
 
         # Broadcast should handle error gracefully
         payload = {"type": "chat", "message": "Test"}

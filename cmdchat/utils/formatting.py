@@ -13,14 +13,14 @@ def utc_timestamp() -> str:
     """Generate an ISO 8601 UTC timestamp.
 
     Returns:
-        Current time in ISO 8601 format with timezone
+        Current time in ISO 8601 format with 'Z' suffix
 
     Examples:
         >>> ts = utc_timestamp()
-        >>> 'T' in ts and '+' in ts or 'Z' in ts
+        >>> 'T' in ts and ts.endswith('Z')
         True
     """
-    return datetime.now(UTC).isoformat()
+    return datetime.now(UTC).isoformat().replace('+00:00', 'Z')
 
 
 def format_timestamp(timestamp: str | None) -> str:

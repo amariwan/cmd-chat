@@ -127,6 +127,18 @@ test-e2e-full:
 	@echo "Running full E2E test script..."
 	./test_e2e.sh
 
+test-all:
+	@echo "Running all tests..."
+	$(PYTEST) -v
+	@$(MAKE) test
+	@$(MAKE) test-parallel
+	@$(MAKE) test-cov
+	@$(MAKE) test-e2e
+	@$(MAKE) test-e2e-full
+
+
+	@echo "✅ All tests passed!"
+
 # --- Server ---
 server:
 	@test -f $(CMDCHAT_SERVER) || { echo "❌ cmdchat-server not found. Run 'make install' first."; exit 1; }

@@ -24,15 +24,19 @@ class MetricsCollector:
         """Update the current client count."""
         self.total_clients = count
 
-    def increment_messages(self) -> None:
-        """Increment the message counter."""
-        self.total_messages += 1
+    def increment_messages(self, count: int = 1) -> None:
+        """Increment the message counter.
+
+        Args:
+            count: Number of messages to increment by (default: 1)
+        """
+        self.total_messages += count
 
     def get_metrics(self) -> dict:
         """Get current metrics as a dictionary."""
         return {
-            "total_clients": self.total_clients,
-            "total_messages": self.total_messages,
+            "clients": self.total_clients,
+            "messages": self.total_messages,
         }
 
     def reset(self) -> None:
@@ -64,8 +68,8 @@ async def metrics_loop(state: ServerState, stop_event: asyncio.Event, interval: 
                 import json
                 print(json.dumps(metrics_dict), flush=True)
             else:
-                clients = metrics_dict.get("total_clients", 0)
-                messages = metrics_dict.get("total_messages", 0)
+                clients = metrics_dict.get("clients", 0)
+                messages = metrics_dict.get("messages", 0)
                 logger.info(f"Metrics: clients={clients}, messages={messages}")
 
         except asyncio.CancelledError:
